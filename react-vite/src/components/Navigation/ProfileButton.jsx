@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
+import { useNavigate } from "react-router-dom";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -33,11 +35,16 @@ function ProfileButton() {
 
   const closeMenu = () => setShowMenu(false);
 
-  const logout = (e) => {
+const logout = async (e) => {
     e.preventDefault();
-    dispatch(thunkLogout());
+    await dispatch(thunkLogout());
     closeMenu();
+    navigate("/")
   };
+  
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <>
@@ -48,8 +55,8 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
+              <li>{user.first_name}</li>
+              <li>{user.family_code}</li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
