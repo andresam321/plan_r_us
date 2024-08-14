@@ -8,6 +8,8 @@ function LoginFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [family_code, setFamily_code] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -16,8 +18,8 @@ function LoginFormModal() {
 
     const serverResponse = await dispatch(
       thunkLogin({
-        email,
-        password,
+        first_name,
+        family_code,
       })
     );
 
@@ -33,25 +35,25 @@ function LoginFormModal() {
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Email
+          First Name:
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={first_name}
+            onChange={(e) => setFirst_name(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {/* {errors.email && <p>{errors.email}</p>} */}
         <label>
-          Password
+          Family Code:
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            value={family_code}
+            onChange={(e) => setFamily_code(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {/* {errors.password && <p>{errors.password}</p>} */}
         <button type="submit">Log In</button>
       </form>
     </>

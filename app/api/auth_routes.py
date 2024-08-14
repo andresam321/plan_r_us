@@ -3,6 +3,9 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+import os
+
+FAMILY_CODE = os.environ.get('FAMILY_CODE')
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -19,19 +22,19 @@ def authenticate():
 
 @auth_routes.route('/login', methods=['POST'])
 def login():
-    """
-    Logs a user in
-    """
     form = LoginForm()
-    # Get the csrf_token from the request cookie and put it into the
-    # form manually to validate_on_submit can be used
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
-        login_user(user)
-        return user.to_dict()
+        if form.data['family_code'] != FAMILY_CODE:
+            return {'errors': 'Invalid family code.'}, 400
+
+        user = User.query.filter(User.first_name == form.data['first_name'], User.family_code == form.data['family_code']).first()
+        if user:
+            login_user(user)
+            return user.to_dict()
+        return {'errors': {'message': 'Invalid credentials'}}, 401
     return form.errors, 401
+
 
 
 @auth_routes.route('/logout')
@@ -45,16 +48,19 @@ def logout():
 
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
-    """
-    Creates a new user and logs them in
-    """
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        if form.data['family_code'] != FAMILY_CODE:
+            return {'errors': 'Invalid family code.'}, 400
+
+        if User.query.filter(User.first_name == form.data['first_name']).first():
+            return {'errors': 'User already exists.'}, 400
+
         user = User(
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password']
+            first_name=form.data['first_name'],
+            last_name=form.data['last_name'],
+            family_code=form.data['family_code']
         )
         db.session.add(user)
         db.session.commit()

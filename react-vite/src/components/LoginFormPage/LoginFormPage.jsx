@@ -10,6 +10,8 @@ function LoginFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [family_code, setFamily_code] = useState("");
   const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
@@ -19,8 +21,8 @@ function LoginFormPage() {
 
     const serverResponse = await dispatch(
       thunkLogin({
-        email,
-        password,
+        first_name,
+        family_code,
       })
     );
 
@@ -38,25 +40,25 @@ function LoginFormPage() {
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
         <label>
-          Email
+          First Name:
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={first_name}
+            onChange={(e) => setFirst_name(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {/* {errors.email && <p>{errors.email}</p>} */}
         <label>
-          Password
+          Family Code:
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={family_code}
+            onChange={(e) => setFamily_code(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {/* {errors.password && <p>{errors.password}</p>} */}
         <button type="submit">Log In</button>
       </form>
     </>

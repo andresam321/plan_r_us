@@ -9,6 +9,9 @@ function SignupFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
+  const [family_code, setFamily_code] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -27,9 +30,9 @@ function SignupFormPage() {
 
     const serverResponse = await dispatch(
       thunkSignup({
-        email,
-        username,
-        password,
+        first_name,
+        last_name,
+        family_code,
       })
     );
 
@@ -46,35 +49,35 @@ function SignupFormPage() {
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <label>
-          Email
+          First Name:
           <input
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={first_name}
+            onChange={(e) => setFirst_name(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {/* {errors.email && <p>{errors.email}</p>} */}
         <label>
-          Username
+          Last Name:
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={last_name}
+            onChange={(e) => setLast_name(e.target.value)}
             required
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
         <label>
-          Password
+          Family Code:
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={family_code}
+            onChange={(e) => setFamily_code(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {/* {errors.password && <p>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -84,7 +87,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <p>{errors.confirmPassword}</p>} */}
         <button type="submit">Sign Up</button>
       </form>
     </>

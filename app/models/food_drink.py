@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 class FoodDrink(db.Model):
@@ -16,9 +16,8 @@ class FoodDrink(db.Model):
     type_of_food = db.Column(db.String(50), nullable = False)
     notes = db.Column(db.String(150))
     
-    event = db.relationship('Event', backref='food_drinks')
-    
-    brought_by = db.relationship('User', backref='brought_food_drinks')
+    event = db.relationship('Event', back_populates ='food_drinks')
+    brought_by = db.relationship('User', back_populates ='brought_food_drinks')
     
     def to_dict(self):
         return {

@@ -1,5 +1,4 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Event(db.Model):
@@ -17,10 +16,8 @@ class Event(db.Model):
     organizer = db.Column(db.String(100), nullable = False)
     cut_of_date_to_bring_items = db.Column(db.String(100), nullable = False)
     
-    creator = db.relationship('User', backref='created_events')
-    
-
-    food_drinks = db.relationship('FoodDrink', backref='event')
+    event_maker = db.relationship('User', back_populates ='created_events')
+    food_drinks = db.relationship('FoodDrink', back_populates ='event',cascade='all, delete-orphan')
     
     def to_dict(self):
         return {

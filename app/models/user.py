@@ -16,9 +16,8 @@ class User(db.Model, UserMixin):
     # hashed_password = db.Column(db.String(255), nullable=False)
     family_code = db.Column(db.String(10), nullable=True)
     
-    created_events = db.relationship("Event", backref="creator")
-    
-    brought_food_drinks = db.relationship("FoodDrink", backref="brought_by")
+    created_events = db.relationship("Event", back_populates ="event_maker",cascade='all, delete-orphan')
+    brought_food_drinks = db.relationship("FoodDrink", back_populates ="brought_by",cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -30,6 +29,10 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def check_family_code(self, family_code):
+        return self.family_code == family_code
+
 
     def to_dict(self):
         return {
