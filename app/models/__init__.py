@@ -3,3 +3,4 @@ from .user import User
 from .db import environment, SCHEMA
 from .event import Event
 from .food_drink import FoodDrink
+from .event_attendance import EventAttendance

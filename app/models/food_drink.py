@@ -21,9 +21,14 @@ class FoodDrink(db.Model):
     
     def to_dict(self):
         return {
-            "id":self.id,
-            "name_of_food":self.name_of_food,
-            "name_of_drink":self.name_of_drink,
-            "type_of_food": self.type_of_food
+            "id": self.id,
+            "name_of_food": self.name_of_food,
+            "name_of_drink": self.name_of_drink,
+            "type_of_food": self.type_of_food,
+            "brought_by": {
+                "id": self.brought_by.id,
+                "first_name": self.brought_by.first_name,  
+                "last_name": self.brought_by.last_name  
+            } if self.brought_by else None
         }
     

@@ -34,6 +34,6 @@ def undo_events():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.events RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM owners"))
+        db.session.execute(text("DELETE FROM events"))
 
     db.session.commit()
