@@ -27,7 +27,7 @@ def food_drinks_by_event(event_id):
 
     food_drinks_list = [food_drink.to_dict() for food_drink in food_drinks]
 
-    return jsonify({"food_drinks":food_drinks_list}),200
+    return {"food_drinks":food_drinks_list},200
 
 
 @food_drink_routes.route("/<int:event_id>/food-drinks/event", methods=["POST"])

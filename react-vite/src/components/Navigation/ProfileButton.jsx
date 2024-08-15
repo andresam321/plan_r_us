@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import "./ProfileButton.css";
+
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -47,18 +49,18 @@ const logout = async (e) => {
   }
 
   return (
-    <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+    <div className="profile-button-container">
+      <button className="profile-button" onClick={toggleMenu}>
+        <FaUserCircle size={24} />
       </button>
       {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
+        <ul className="profile-dropdown" ref={ulRef}>
           {user ? (
             <>
-              <li>{user.first_name}</li>
-              <li>{user.family_code}</li>
-              <li>
-                <button onClick={logout}>Log Out</button>
+              <li className="profile-dropdown-item">{user.first_name}</li>
+              <li className="profile-dropdown-item">{user.family_code}</li>
+              <li className="profile-dropdown-item">
+                <button className="logout-button" onClick={logout}>Log Out</button>
               </li>
             </>
           ) : (
@@ -77,7 +79,7 @@ const logout = async (e) => {
           )}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

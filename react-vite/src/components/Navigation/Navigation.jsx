@@ -4,16 +4,21 @@ import "./Navigation.css";
 
 function Navigation() {
   return (
-    <ul>
-      <li>
-        <NavLink to="/Events">Home</NavLink>
-      </li>
-
-      <li>
-        <ProfileButton />
-      </li>
-    </ul>
+    <nav className="navigation-container">
+      <ul className="nav-list">
+        <li className="nav-item">
+          <NavLink to="/Events" className="nav-link" activeClassName="active">
+            Home
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <ProfileButton />
+        </li>
+      </ul>
+    </nav>
   );
 }
+
+
 
 export default Navigation;

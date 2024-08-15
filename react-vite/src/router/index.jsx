@@ -3,6 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import SplashPage from '../components/HomePage/SplashPage';
 import Events from '../components/EventPage/Events';
+import EventDetails from '../components/EventPage/EventDetails';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
       {
         path: "/Events",
         element: <Events/>,
+      },
+      {
+        path: "/event/:id",
+        element: <EventDetails/>,
       },
       {
         path: "login",
