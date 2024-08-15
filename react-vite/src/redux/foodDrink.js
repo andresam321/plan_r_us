@@ -1,5 +1,7 @@
 const GET_ALL_FOOD_DRINKS_BY_EVENT_ID = "getAllFoodDrinksByEventId/GET_ALL_FOOD_DRINKS_BY_EVENT_ID"
 const ADD_FOOD_DRINKS_TO_EVENT = "addFoodDrinksToEvent/ADD_FOOD_DRINKS_TO_EVENT"
+const UPDATE_FOOD_DRINK_FROM_EVENT = "updateFoodDrinkFromEvent/UPDATE_FOOD_DRINK_FROM_EVENT"
+const DELETE_FOOD_DRINK = "deleteFoodDrink/DELETE_FOOD_DRINK"
 
 const getFoodDrink = (foodDrink) => ({
     type:GET_ALL_FOOD_DRINKS_BY_EVENT_ID,
@@ -11,14 +13,56 @@ const addFoodDrinksToEvent = (foodDrink) => ({
     payload:foodDrink
 })
 
-export const thunkAddFoodDrinksToEvent = (foodDrink_id, formData) => async (dispatch) => {
+const editFoodDrink = (foodDrink) => ({
+    type:UPDATE_FOOD_DRINK_FROM_EVENT,
+    payload:foodDrink
+
+})
+
+const deleteFoodDrink = (foodDrink) => ({
+    type:DELETE_FOOD_DRINK,
+    payload:foodDrink
+})
+
+export const thunkDeleteFoodDrink = (foodDrinkId) => async (dispatch) => {
+    const res = await fetch(`/api/food_drink/${foodDrinkId}`, {
+        method: "DELETE"
+    });
+    const data = await res.json();
+    if (res.ok) {
+        await dispatch(deleteFoodDrink(foodDrinkId));
+        return foodDrinkId;
+    } else {
+        return { "errors": data };
+    }
+
+}
+
+
+export const thunkEditFoodDrink = (foodDrink_id, foodDrink) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/food_drink/${foodDrink_id}/food_drink/event`, {
+        const res = await fetch(`/api/food_drink/${foodDrink_id}/event`, {
+            method: "PUT",
+            body: foodDrink,
+        });
+        if (res.ok) {
+            const data = await res.json();
+            await dispatch(editFoodDrink(data));
+        } else {
+            console.error("HTTP error:", res.statusText);
+        }
+    } catch (error) {
+        console.error('Error fetching goodies:', error);
+    }
+
+
+}
+
+export const thunkAddFoodDrinksToEvent = (event_id, formData) => async (dispatch) => {
+    try {
+        const res = await fetch(`/api/food_drink/${event_id}/event`, {
             method: "POST",
             body: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data' // Make sure to set the correct Content-Type for FormData
-            }
         });
         if (res.ok) {
             const data = await res.json();
@@ -69,6 +113,18 @@ function foodDrinkReducer(state = {}, action) {
             // console.log("100",action.payload)
             return newState;
         }
+    case UPDATE_FOOD_DRINK_FROM_EVENT:{
+        return {
+                ...state,
+            [action.payload.id]: action.payload,
+        };
+    }
+    case DELETE_FOOD_DRINK:{
+        const newState = { ...state };
+        delete newState[action.payload];
+        return newState;
+
+    }
         default:
             return state;
     

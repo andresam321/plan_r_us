@@ -25,6 +25,7 @@ class FoodDrink(db.Model):
             "name_of_food": self.name_of_food,
             "name_of_drink": self.name_of_drink,
             "type_of_food": self.type_of_food,
+            "notes":self.notes,
             "brought_by": {
                 "id": self.brought_by.id,
                 "first_name": self.brought_by.first_name,  

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { thunkAddFoodDrinksToEvent } from '../../redux/foodDrink';
+import { useDispatch, useSelector } from 'react-redux';
+import { thunkEditFoodDrink } from '../../redux/foodDrink';
 import { useModal } from '../../context/Modal';
 import { useParams } from 'react-router-dom';
-import "./AddFoodAndDrink.css"
 
 
-const AddFoodAndDrinks = () => {
+
+const UpdateFoodAndDrink = ({foodDrinkId}) => {
+
+
+
 const dispatch = useDispatch();
 const {closeModal} = useModal()
 const {id} = useParams()
@@ -15,6 +18,19 @@ const [name_of_drink, setName_of_drink] = useState('')
 const [type_of_food, setType_of_food] = useState('')
 const [notes, setNotes] = useState('')
 const [errors, setErrors] = useState({});
+
+const foodDrinkById = useSelector((state) => state.foodDrinkReducer[foodDrinkId])
+console.log("line23",foodDrinkById)
+
+useEffect(() => {
+    if(foodDrinkById){
+        setName_of_food(foodDrinkById.name_of_food || "");
+        setName_of_drink(foodDrinkById.name_of_drink || "");
+        setType_of_food(foodDrinkById.type_of_food || "");
+        setNotes(foodDrinkById.notes || "");
+    }
+
+}, [foodDrinkById])
 
 
 
@@ -80,7 +96,7 @@ const handleSubmit = async (e) => {
     formData.append('notes',notes);
 
     try {
-        const res = await dispatch(thunkAddFoodDrinksToEvent(id,formData)); 
+        const res = await dispatch(thunkEditFoodDrink(foodDrinkId,formData)); 
         console.log("Response:", res);
         closeModal() 
     } catch (error) {
@@ -159,4 +175,4 @@ return (
 );
 };
 
-export default AddFoodAndDrinks
+export default UpdateFoodAndDrink

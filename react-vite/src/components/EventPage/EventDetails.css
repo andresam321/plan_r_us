@@ -59,6 +59,7 @@
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* Allows positioning of buttons */
 }
 
 .food-drink-header {
@@ -92,4 +93,55 @@
     font-size: 0.9rem;
     color: #555;
     margin-top: 5px;
+}
+
+/* Button Styles */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adjust gap between buttons as needed */
+    margin-top: 10px; /* Space above buttons */
+}
+
+.open-modal-button {
+    background-color: #007BFF; /* Primary color for buttons */
+    color: #ffffff; /* Text color */
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.open-modal-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.open-modal-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Focus outline */
+}
+
+/* Add button styles */
+.add-food-drinks-button {
+    background-color: #28a745; /* Green for Add button */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.add-food-drinks-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-food-drinks-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.5); /* Focus outline */
 }
