@@ -19,17 +19,18 @@ function SignupFormModal() {
 
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // if (password !== confirmPassword) {
-    //   return setErrors({
-    //     confirmPassword:
-    //       "Confirm Password field must be the same as the Password field",
-    //   });
-    // }
+  if (password !== confirmPassword) {
+    return setErrors({
+      confirmPassword:
+        "Confirm Password field must be the same as the Password field",
+    });
+  }
 
-    const serverResponse = await dispatch(
+  try {
+    const response = await dispatch(
       thunkSignup({
         first_name,
         last_name,
@@ -37,12 +38,16 @@ function SignupFormModal() {
       })
     );
 
-    if (serverResponse) {
-      setErrors(serverResponse);
+    if (response.errors) {
+      setErrors(response.errors);
     } else {
       closeModal();
     }
-  };
+  } catch (error) {
+    console.error("Signup error:", error);
+    setErrors({ server: "Signup failed. Please try again later." });
+  }
+};
 
   return (
     <div className="signup-form">

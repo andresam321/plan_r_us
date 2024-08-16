@@ -45,29 +45,33 @@ def logout():
     logout_user()
     return {'message': 'User logged out'}
 
-
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
-    form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        if form.data['family_code'] != FAMILY_CODE:
-            return {'errors': 'Invalid family code.'}, 400
+    try:
+        form = SignUpForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
 
-        if User.query.filter(User.first_name == form.data['first_name']).first():
-            return {'errors': 'User already exists.'}, 400
+        if form.validate_on_submit():
+            if form.data['family_code'] != FAMILY_CODE:
+                return {'errors': 'Invalid family code.'}, 400
 
-        user = User(
-            first_name=form.data['first_name'],
-            last_name=form.data['last_name'],
-            family_code=form.data['family_code']
-        )
-        db.session.add(user)
-        db.session.commit()
-        # login_user(user)
-        return user.to_dict()
-    return form.errors, 401
+            if User.query.filter_by(first_name=form.data['first_name']).first():
+                return {'errors': 'User already exists.'}, 400
 
+            user = User(
+                first_name=form.data['first_name'],
+                last_name=form.data['last_name'],
+                family_code=form.data['family_code']
+            )
+            db.session.add(user)
+            db.session.commit()
+            return user.to_dict()
+        
+        return {'errors': form.errors}, 401
+
+    except Exception as e:
+        print("Error in sign_up route:", e)
+        return {'errors': 'Internal server error.'}, 500
 
 @auth_routes.route('/unauthorized')
 def unauthorized():
