@@ -15,7 +15,6 @@ const EventDetails = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    // Get the single event including food and drink data
     const singleEvent = useSelector((state) => state.eventReducer[id]);
 
     console.log("line20",singleEvent)
@@ -23,14 +22,14 @@ const EventDetails = () => {
     const userId = useSelector((state) => state.session.user.id);
 
     console.log("line24",userId)
-    // Ensure food/drinks are included in singleEvent
+
     const allFoodDrinksForEvent = singleEvent?.food_drinks || [];
 
-    // Separate items brought by the logged-in user
+    
     const userItems = allFoodDrinksForEvent.filter(item => item.brought_by.id === userId);
     const otherItems = allFoodDrinksForEvent.filter(item => item.brought_by.id !== userId);
 
-    // Combine arrays with user items first
+
     const sortedItems = [...userItems, ...otherItems];
 
     useEffect(() => {

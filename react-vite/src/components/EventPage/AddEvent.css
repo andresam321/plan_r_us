@@ -8,7 +8,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Heading for the Add Event form */
+
 .add-event-container h2 {
     font-size: 2rem;
     color: #333;
@@ -16,14 +16,14 @@
     text-align: center;
 }
 
-/* Styling for the form */
+
 .add-event-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* General styling for form labels */
+
 .add-event-form .form-group label {
     font-size: 1rem;
     font-weight: bold;
@@ -31,7 +31,7 @@
     margin-bottom: 5px;
 }
 
-/* General styling for form inputs and textareas */
+
 .add-event-form input,
 .add-event-form textarea {
     font-size: 1rem;
@@ -42,13 +42,13 @@
     box-sizing: border-box;
 }
 
-/* Specific styling for textarea */
+
 .add-event-form textarea {
     resize: vertical;
     min-height: 100px;
 }
 
-/* Error message styling */
+
 .error-message {
     color: #e74c3c;
     font-size: 0.875rem;
@@ -56,7 +56,7 @@
     text-align: center;
 }
 
-/* Submit button styling */
+
 .submit-button {
     font-size: 1rem;
     color: #fff;
@@ -68,7 +68,7 @@
     transition: background-color 0.3s ease;
 }
 
-/* Submit button hover effect */
+
 .submit-button:hover {
     background-color: #0056b3;
 }

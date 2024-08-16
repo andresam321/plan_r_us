@@ -8,7 +8,7 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
+
 .event-header {
     border-bottom: 3px solid #007BFF;
     padding-bottom: 20px;
@@ -29,7 +29,7 @@
     text-align: center;
 }
 
-/* Section */
+
 .food-drink-section {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -45,7 +45,7 @@
     text-align: center;
 }
 
-/* List */
+
 .food-drink-list {
     list-style-type: none;
     padding: 0;
@@ -59,7 +59,7 @@
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative; /* Allows positioning of buttons */
+    position: relative; 
 }
 
 .food-drink-header {
@@ -95,17 +95,17 @@
     margin-top: 5px;
 }
 
-/* Button Styles */
+
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Adjust gap between buttons as needed */
-    margin-top: 10px; /* Space above buttons */
+    gap: 10px; 
+    margin-top: 10px; 
 }
 
 .open-modal-button {
-    background-color: #007BFF; /* Primary color for buttons */
-    color: #ffffff; /* Text color */
+    background-color: #007BFF;
+    color: #ffffff; 
     border: none;
     border-radius: 5px;
     padding: 8px 16px;
@@ -115,18 +115,18 @@
 }
 
 .open-modal-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .open-modal-button:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Focus outline */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); 
 }
 
-/* Add button styles */
+
 .add-food-drinks-button {
-    background-color: #28a745; /* Green for Add button */
+    background-color: #28a745; 
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -137,11 +137,11 @@
 }
 
 .add-food-drinks-button:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .add-food-drinks-button:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.5); /* Focus outline */
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.5); 
 }
