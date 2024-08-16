@@ -15,9 +15,8 @@ WORKDIR /var/www
 
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
-RUN pip install psycopg2
-RUN pip install boto3
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir psycopg2 boto3
 
 COPY . .
 
