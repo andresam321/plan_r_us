@@ -7,13 +7,10 @@ import "./SignupForm.css"
 
 function SignupFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
   const [family_code, setFamily_code] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [showModal, setShowModal] = useState(false);
@@ -25,12 +22,12 @@ function SignupFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
-      });
-    }
+    // if (password !== confirmPassword) {
+    //   return setErrors({
+    //     confirmPassword:
+    //       "Confirm Password field must be the same as the Password field",
+    //   });
+    // }
 
     const serverResponse = await dispatch(
       thunkSignup({
