@@ -80,7 +80,7 @@ function SignupFormModal() {
           <label>
             Family Code:
             <input
-              type="password"
+              type="text"
               value={family_code}
               onChange={(e) => setFamily_code(e.target.value)}
               placeholder="Family Code Given"

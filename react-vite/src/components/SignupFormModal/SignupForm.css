@@ -1,8 +1,8 @@
 .signup-form {
     position: fixed;
-    top: 50%; /* Adjust this value as needed */
-    right: 10%; /* Move closer to the login form */
-    transform: translateY(-50%);
+    top: 0%; /* Adjust this value as needed */
+    right: 0%; /* Move closer to the login form */
+    transform: translateY(0%);
     background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 8px;
