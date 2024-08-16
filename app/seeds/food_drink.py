@@ -29,7 +29,7 @@ def seed_food_drinks():
         },
         {
             'event_id': 1,  # Adjust as necessary
-            'brought_by_id': 4,  # Adjust as necessary
+            'brought_by_id': 3,  # Adjust as necessary
             'name_of_food': 'Cheese Platter',
             'name_of_drink': 'Sparkling Water',
             'type_of_food': 'Appetizer',
