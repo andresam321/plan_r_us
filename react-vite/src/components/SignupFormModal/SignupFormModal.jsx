@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
-import "./SignupForm.css";
+import "./SignupForm.css"
+
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -15,6 +16,11 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const [showModal, setShowModal] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,53 +48,46 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div className="signup-form">
+      {/* <button className="form-close" onClick={onClose}>&times;</button> */}
       <h1>Sign Up</h1>
-      {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input
-            type="text"
-            value={first_name}
-            onChange={(e) => setFirst_name(e.target.value)}
-            required
-          />
-        </label>
-        {/* {errors.email && <p>{errors.email}</p>} */}
-        <label>
-          Last Name:
-          <input
-            type="text"
-            value={last_name}
-            onChange={(e) => setLast_name(e.target.value)}
-            required
-          />
-        </label>
-        {/* {errors.username && <p>{errors.username}</p>} */}
-        <label>
-          Family Code:
-          <input
-            type="password"
-            value={family_code}
-            onChange={(e) => setFamily_code(e.target.value)}
-            required
-          />
-        </label>
-        {/* {errors.password && <p>{errors.password}</p>} */}
-        {/* <label>
-          Confirm Password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>} */}
-        <button type="submit">Sign Up</button>
+        <div className="form-group">
+          <label>
+            First Name:
+            <input
+              type="text"
+              value={first_name}
+              onChange={(e) => setFirst_name(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div className="form-group">
+          <label>
+            Last Name:
+            <input
+              type="text"
+              value={last_name}
+              onChange={(e) => setLast_name(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div className="form-group">
+          <label>
+            Family Code:
+            <input
+              type="password"
+              value={family_code}
+              onChange={(e) => setFamily_code(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <button type="submit" className="form-button">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

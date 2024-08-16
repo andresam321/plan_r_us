@@ -18,7 +18,7 @@ def all_food_drinks():
 
 
 
-@food_drink_routes.route("/event/<int:event_id>/food-drinks")
+@food_drink_routes.route("/event/<int:event_id>")
 @login_required
 def food_drinks_by_event(event_id):
 
@@ -28,6 +28,8 @@ def food_drinks_by_event(event_id):
     food_drinks_list = [food_drink.to_dict() for food_drink in food_drinks]
 
     return {"food_drinks":food_drinks_list},200
+
+
 
 
 @food_drink_routes.route("/<int:event_id>/event", methods=["POST"])

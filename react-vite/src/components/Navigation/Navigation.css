@@ -1,6 +1,3 @@
-.profile-dropdown {
-  position: absolute;
-}
 .navigation-container {
     background-color: #007BFF;
     padding: 10px 20px;
@@ -30,4 +27,22 @@
 .nav-link.active {
     border-bottom: 2px solid #fff;
     padding-bottom: 5px;
+}
+
+.create-event-button {
+    background-color: #fff;
+    color: #007BFF;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 5px 15px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.create-event-button:hover {
+    background-color: #007BFF;
+    color: #fff;
 }

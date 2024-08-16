@@ -1,81 +1,73 @@
-*,
-::after,
-::before {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+.events-page {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f4f4f9;
 }
 
-/* General Styles */
-body, html {
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Header for the Events page */
+.events-page h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-/* Events Container */
+/* Container that holds all event cards */
 .events-container {
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
-    gap: 20px; /* Adjust space between cards */
-    padding: 20px;
 }
 
-/* Heading */
-h1 {
-    font-size: 28px;
-    color: #333;
-    text-align: center;
-    margin: 20px 0;
-}
-
-/* Event Card */
+/* Individual event card styling */
 .event-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 250px; /* Fixed width for consistency */
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #fff;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center; /* Center text inside the card */
+    cursor: pointer;
+    margin: 10px; /* Space between cards */
 }
 
-/* Hover Effect */
+/* Hover effect for the event card */
 .event-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Event Details */
+/* Styling for the event name */
+.event-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007BFF;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd; /* Border below event name */
+    padding-bottom: 5px; /* Space between text and border */
+}
+
+/* General text styling for event details */
 .event-card p {
-    font-size: 14px;
+    font-size: 1rem;
     color: #555;
     margin: 5px 0;
+    padding: 5px 0; /* Adds space above and below text */
+    border-bottom: 1px solid #eee; /* Light border for separation */
 }
 
-/* Event Name */
-.event-card .event-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+/* Remove the bottom border for the last paragraph in the card */
+.event-card p:last-child {
+    border-bottom: none;
 }
 
-/* Link Styles */
-a {
+/* Styling for the NavLink component to remove default styles */
+.event-card a {
     text-decoration: none;
     color: inherit;
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 600px) {
-    .event-card {
-        width: 90%;
-        padding: 10px;
-    }
 }

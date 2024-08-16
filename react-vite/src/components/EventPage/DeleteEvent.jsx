@@ -2,46 +2,41 @@ import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { thunkDeleteFoodDrink } from "../../redux/foodDrink";
-import { thunkGetEventById,thunkGetAllEvents } from "../../redux/event";
-import "./DeleteFoodDrink.css"
+import { thunkDeleteEvent } from "../../redux/event";
+
+const DeleteEvent = () => {
 
 
-
-const DeleteFoodAndDrink = ({foodDrinkId}) => {
-
-    const { id } = useParams();
-    const dispatch = useDispatch();
-    const { closeModal } = useModal();
-    const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
-
+const { id } = useParams();
+const dispatch = useDispatch();
+const { closeModal } = useModal();
+const navigate = useNavigate();
+const [isLoading, setIsLoading] = useState(false);
 
 const handleDelete = async (e) => {
         e.preventDefault();
         setIsLoading(true);
 
         try {
-            const res = await dispatch(thunkDeleteFoodDrink(foodDrinkId));
-            await dispatch(thunkGetEventById(id))
+            const res = await dispatch(thunkDeleteEvent(id));
             setIsLoading(false);
-            closeModal() 
+            navigate("/Events")
+            closeModal()
+            await dispatch(thunkGetEventById(id))
         } catch (error) {
             setIsLoading(false);
-            // alert("An error occurred. Please try again.");
         }
     };
 
 
-
-return (
+    return (
 <div className="delete-container">
             <form onSubmit={handleDelete} className="delete-form">
                 <div className="delete-header">
                     <h2>Confirm Delete</h2>
                 </div>
                 <div className="delete-message">
-                    <p>Are you sure you want to delete this item?</p>
+                    <p>Are you sure you want to delete this Event?</p>
                 </div>
                 <div className="delete-buttons">
                     <button type="submit" className="delete-button" disabled={isLoading}>
@@ -56,4 +51,4 @@ return (
     );
 };
 
-export default DeleteFoodAndDrink
+export default DeleteEvent

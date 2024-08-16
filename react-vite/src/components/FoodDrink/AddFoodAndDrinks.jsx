@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { thunkAddFoodDrinksToEvent } from '../../redux/foodDrink';
+import { thunkAddFoodDrinksToEvent,thunkGetAllFoodDrinksByEvent } from '../../redux/foodDrink';
+import { thunkGetEventById } from '../../redux/event';
 import { useModal } from '../../context/Modal';
 import { useParams } from 'react-router-dom';
 import "./AddFoodAndDrink.css"
@@ -81,6 +82,7 @@ const handleSubmit = async (e) => {
 
     try {
         const res = await dispatch(thunkAddFoodDrinksToEvent(id,formData)); 
+        await dispatch(thunkGetEventById(id))
         console.log("Response:", res);
         closeModal() 
     } catch (error) {

@@ -26,9 +26,11 @@ class Event(db.Model):
         return {
             "id":self.id,
             "name":self.name,
-            "decription":self.description,
+            "description":self.description,
             "event_date":self.event_date,
             "location":self.location,
-            "organizer":self.organizer        
+            "organizer":self.organizer,
+            "cut_of_date_to_bring_items":self.cut_of_date_to_bring_items,
+            "creator_id": self.creator_id         
 
         }

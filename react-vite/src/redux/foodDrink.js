@@ -2,6 +2,7 @@ const GET_ALL_FOOD_DRINKS_BY_EVENT_ID = "getAllFoodDrinksByEventId/GET_ALL_FOOD_
 const ADD_FOOD_DRINKS_TO_EVENT = "addFoodDrinksToEvent/ADD_FOOD_DRINKS_TO_EVENT"
 const UPDATE_FOOD_DRINK_FROM_EVENT = "updateFoodDrinkFromEvent/UPDATE_FOOD_DRINK_FROM_EVENT"
 const DELETE_FOOD_DRINK = "deleteFoodDrink/DELETE_FOOD_DRINK"
+const CLEAR_FOOD_DRINKS = "clearFoodDrinks/CLEAR_FOOD_DRINKS";
 
 const getFoodDrink = (foodDrink) => ({
     type:GET_ALL_FOOD_DRINKS_BY_EVENT_ID,
@@ -24,6 +25,11 @@ const deleteFoodDrink = (foodDrink) => ({
     payload:foodDrink
 })
 
+export const clearFoodDrinks = () => ({
+    type: CLEAR_FOOD_DRINKS,
+});
+
+
 export const thunkDeleteFoodDrink = (foodDrinkId) => async (dispatch) => {
     const res = await fetch(`/api/food_drink/${foodDrinkId}`, {
         method: "DELETE"
@@ -39,24 +45,23 @@ export const thunkDeleteFoodDrink = (foodDrinkId) => async (dispatch) => {
 }
 
 
-export const thunkEditFoodDrink = (foodDrink_id, foodDrink) => async (dispatch) => {
+export const thunkEditFoodDrink = (foodDrinkId, foodDrink) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/food_drink/${foodDrink_id}/event`, {
+        const res = await fetch(`/api/food_drink/${foodDrinkId}/event`, {
             method: "PUT",
             body: foodDrink,
         });
         if (res.ok) {
             const data = await res.json();
-            await dispatch(editFoodDrink(data));
+            dispatch(editFoodDrink(data)); // Ensure this action updates the Redux store
         } else {
-            console.error("HTTP error:", res.statusText);
+            const errorData = await res.json();
+            console.error("HTTP error:", errorData.message || res.statusText);
         }
     } catch (error) {
-        console.error('Error fetching goodies:', error);
+        console.error('Error updating food/drink:', error);
     }
-
-
-}
+};
 
 export const thunkAddFoodDrinksToEvent = (event_id, formData) => async (dispatch) => {
     try {
@@ -66,7 +71,7 @@ export const thunkAddFoodDrinksToEvent = (event_id, formData) => async (dispatch
         });
         if (res.ok) {
             const data = await res.json();
-            await dispatch(addFoodDrinksToEvent(data));
+            await dispatch(addFoodDrinksToEvent(data.food_drinks));
         } else {
             console.error("HTTP error:", res.statusText);
         }
@@ -78,13 +83,12 @@ export const thunkAddFoodDrinksToEvent = (event_id, formData) => async (dispatch
 
 export const thunkGetAllFoodDrinksByEvent = (id) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/food_drink/event/${id}/food-drinks`);
+        const res = await fetch(`/api/food_drink/event/${id}`);
         if (res.ok) {
             const data = await res.json();
 
             if (data) {
-                dispatch(getFoodDrink(data.food_drinks));
-                return;
+                await dispatch(getFoodDrink(data));
             } else {
                 console.error("Received empty data from the server");
             }
@@ -101,12 +105,14 @@ export const thunkGetAllFoodDrinksByEvent = (id) => async (dispatch) => {
 
 function foodDrinkReducer(state = {}, action) {
     switch(action.type){
-    case GET_ALL_FOOD_DRINKS_BY_EVENT_ID:
-        const newState = { ...state };
-            action.payload.forEach((foodDrink) => {
+    case GET_ALL_FOOD_DRINKS_BY_EVENT_ID: {
+            const newState = { ...state };
+            // console.log("ownerReducer", action.payload);
+            action.payload.food_drinks.forEach((foodDrink) => {
                 newState[foodDrink.id] = foodDrink;
             });
-        return newState;
+            return newState;
+        }
     case ADD_FOOD_DRINKS_TO_EVENT:{
         const newState = { ...state };
             newState[action.payload.id] = action.payload;
@@ -114,6 +120,7 @@ function foodDrinkReducer(state = {}, action) {
             return newState;
         }
     case UPDATE_FOOD_DRINK_FROM_EVENT:{
+        console.log("Reducer Action Payload:", action.payload);
         return {
                 ...state,
             [action.payload.id]: action.payload,
@@ -125,6 +132,7 @@ function foodDrinkReducer(state = {}, action) {
         return newState;
 
     }
+    
         default:
             return state;
     

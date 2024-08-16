@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import "./LoginForm.css";
+import SignupFormModal from "../SignupFormModal/SignupFormModal";
 
 function LoginFormPage() {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ function LoginFormPage() {
   const [family_code, setFamily_code] = useState("");
   const [errors, setErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
 
 
   useEffect(() => {
@@ -50,11 +53,18 @@ function LoginFormPage() {
     }
   };
 
-  // Validate fields on every render
+  const handleSignupOpen = () => {
+    setIsSignupOpen(true);
+  };
 
-  return (
+  const handleSignupClose = () => {
+    setIsSignupOpen(false);
+  };
+
+
+return (
     <div className="login-page">
-      <div className={`login-container ${Object.keys(errors).length > 0 ? "blur-background" : ""}`}>
+      <div className="login-container">
         <h1>Log In</h1>
         {Object.keys(errors).length > 0 &&
           Object.values(errors).map((message, index) => (
@@ -90,7 +100,12 @@ function LoginFormPage() {
           <button type="submit" className="form-button">Log In</button>
         </form>
       </div>
+      <div className="signup-container">
+        <SignupFormModal />
+      </div>
     </div>
   );
 }
+
+
 export default LoginFormPage;

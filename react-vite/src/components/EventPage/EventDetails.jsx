@@ -7,20 +7,24 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useParams } from 'react-router-dom';
 import UpdateFoodAndDrink from '../FoodDrink/UpdateFoodAndDrink';
 import DeleteFoodAndDrink from '../FoodDrink/DeleteFoodAndDrink';
+import UpdateEvent from './UpdateEvent';
+import DeleteEvent from './DeleteEvent';
 import "./EventDetails.css"
 
 const EventDetails = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    console.log("Event ID:", id);
+
+    // Get the single event including food and drink data
     const singleEvent = useSelector((state) => state.eventReducer[id]);
 
-    const allFoodDrinksForEvent = useSelector((state) => Object.values(state.foodDrinkReducer));
-    console.log("line16", singleEvent)
-    console.log("line17", allFoodDrinksForEvent)
+    console.log("line20",singleEvent)
 
-    const userId = useSelector((state) => state.session.user.id)
-    console.log("line25", userId)
+    const userId = useSelector((state) => state.session.user.id);
+
+    console.log("line24",userId)
+    // Ensure food/drinks are included in singleEvent
+    const allFoodDrinksForEvent = singleEvent?.food_drinks || [];
 
     // Separate items brought by the logged-in user
     const userItems = allFoodDrinksForEvent.filter(item => item.brought_by.id === userId);
@@ -30,12 +34,23 @@ const EventDetails = () => {
     const sortedItems = [...userItems, ...otherItems];
 
     useEffect(() => {
-        dispatch(thunkGetEventById(id));
-        dispatch(thunkGetAllFoodDrinksByEvent(id))
+        const fetchData = async () => {
+            try {
+                await dispatch(thunkGetEventById(id))
+                await dispatch(thunkGetAllFoodDrinksByEvent(id));
+            } catch (error) {
+                console.error("Error fetching event or food/drinks data:", error);
+            }
+        };
+
+        fetchData();
     }, [dispatch, id]);
 
+const canUpdateEvent = singleEvent && singleEvent.creator_id === userId;
+console.log("line46",canUpdateEvent)
+
 return (
-    <div className="event-details-container">
+        <div className="event-details-container">
             <div className="event-header">
                 {!userItems.length && (
                     <div>
@@ -45,8 +60,23 @@ return (
                             modalComponent={<AddFoodAndDrinks eventId={id} />}
                         />
                     </div>
+                    
                 )}
-
+                {canUpdateEvent && (
+                    <div>
+                        <OpenModalButton
+                            buttonText="Update Event"
+                            className="add-food-drinks-button"
+                            modalComponent={<UpdateEvent eventId={id} />}
+                        />
+    
+                        <OpenModalButton
+                            buttonText="Delete Event"
+                            className="add-food-drinks-button"
+                            modalComponent={<DeleteEvent />}
+                        />
+                    </div>
+                )} 
                 <h1 className="event-title">{singleEvent?.name}</h1>
                 <p className="event-location">Location: {singleEvent?.location}</p>
                 <p className="event-date">Date: {singleEvent?.event_date}</p>
@@ -81,8 +111,9 @@ return (
                                 </div>
                             )}
 
-                            <p className="food-drink-type">Type: {foodDrink.type_of_food}</p>
-                            {foodDrink.notes && <p className="food-drink-notes">Notes: {foodDrink?.notes}</p>}
+                            <p className="food-drink-type">Type of Food: {foodDrink.type_of_food}</p>
+                            <p className="food-drink-type">Type of Drinks: {foodDrink.name_of_drink}</p>
+                            {foodDrink.notes && <p className="food-drink-notes">Notes: {foodDrink.notes}</p>}
                         </div>
                     ))}
                 </div>

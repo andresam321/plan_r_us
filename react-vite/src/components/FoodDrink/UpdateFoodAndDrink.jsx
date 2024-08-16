@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkEditFoodDrink } from '../../redux/foodDrink';
+import { thunkGetEventById } from '../../redux/event';
 import { useModal } from '../../context/Modal';
 import { useParams } from 'react-router-dom';
 
@@ -23,15 +24,13 @@ const foodDrinkById = useSelector((state) => state.foodDrinkReducer[foodDrinkId]
 console.log("line23",foodDrinkById)
 
 useEffect(() => {
-    if(foodDrinkById){
-        setName_of_food(foodDrinkById.name_of_food || "");
-        setName_of_drink(foodDrinkById.name_of_drink || "");
-        setType_of_food(foodDrinkById.type_of_food || "");
-        setNotes(foodDrinkById.notes || "");
-    }
-
-}, [foodDrinkById])
-
+        if (foodDrinkById) {
+            setName_of_food(foodDrinkById.name_of_food || "");
+            setName_of_drink(foodDrinkById.name_of_drink || "");
+            setType_of_food(foodDrinkById.type_of_food || "");
+            setNotes(foodDrinkById.notes || "");
+        }
+    }, [foodDrinkById]);
 
 
 const foodTypes = [
@@ -88,19 +87,19 @@ const handleSubmit = async (e) => {
         return;
     }
 
-
     const formData = new FormData();
-    formData.append('name_of_food',name_of_food);
-    formData.append('name_of_drink',name_of_drink);
-    formData.append('type_of_food',type_of_food);
-    formData.append('notes',notes);
+    formData.append('name_of_food', name_of_food);
+    formData.append('name_of_drink', name_of_drink);
+    formData.append('type_of_food', type_of_food);
+    formData.append('notes', notes);
 
     try {
-        const res = await dispatch(thunkEditFoodDrink(foodDrinkId,formData)); 
-        console.log("Response:", res);
-        closeModal() 
+        await dispatch(thunkEditFoodDrink(foodDrinkId, formData));
+        closeModal(); // Close modal or handle success
+        await dispatch(thunkGetEventById(id));
+        ; // Refetch event data
     } catch (error) {
-        console.error("Error creating goodies:", error);
+        console.error('Error updating food/drink:', error);
     }
 };
 
