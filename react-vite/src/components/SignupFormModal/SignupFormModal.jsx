@@ -59,6 +59,7 @@ function SignupFormModal() {
               type="text"
               value={first_name}
               onChange={(e) => setFirst_name(e.target.value)}
+              placeholder="Real First Name"
               required
             />
           </label>
@@ -70,6 +71,7 @@ function SignupFormModal() {
               type="text"
               value={last_name}
               onChange={(e) => setLast_name(e.target.value)}
+              placeholder="Real Last Name"
               required
             />
           </label>
@@ -81,6 +83,7 @@ function SignupFormModal() {
               type="password"
               value={family_code}
               onChange={(e) => setFamily_code(e.target.value)}
+              placeholder="Family Code Given"
               required
             />
           </label>

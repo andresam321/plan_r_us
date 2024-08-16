@@ -20,7 +20,7 @@ def seed_food_drinks():
             'notes': 'Vegan-friendly.'
         },
         {
-            'event_id': 2,  # Adjust as necessary
+            'event_id': 1,  # Adjust as necessary
             'brought_by_id': 3,  # Adjust as necessary
             'name_of_food': 'Roast Turkey',
             'name_of_drink': 'Apple Cider',
@@ -28,7 +28,7 @@ def seed_food_drinks():
             'notes': 'Seasoned with herbs and spices.'
         },
         {
-            'event_id': 2,  # Adjust as necessary
+            'event_id': 1,  # Adjust as necessary
             'brought_by_id': 4,  # Adjust as necessary
             'name_of_food': 'Cheese Platter',
             'name_of_drink': 'Sparkling Water',

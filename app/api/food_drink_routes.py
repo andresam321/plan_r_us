@@ -29,8 +29,11 @@ def food_drinks_by_event(event_id):
 
     return {"food_drinks":food_drinks_list},200
 
-
-
+@food_drink_routes.route("/all_food_drink")
+@login_required
+def all_food_drink():
+    all_food_drinks = Event.query.all()
+    return{"events": [all_food_drink.to_dict() for all_food_drink in all_food_drinks]}, 200
 
 @food_drink_routes.route("/<int:event_id>/event", methods=["POST"])
 @login_required
@@ -57,11 +60,11 @@ def create_food_drink(event_id):
         return {"errors": form.errors}
             
 
-@food_drink_routes.route("/<int:food_drink_id>/event", methods=["PUT"])
+@food_drink_routes.route("/<int:id>", methods=["PUT"])
 @login_required
-def update_food_drink(food_drink_id):
+def update_food_drink(id):
     
-    food_drink = FoodDrink.query.get(food_drink_id)
+    food_drink = FoodDrink.query.get(id)
     
     form = FoodDrinkForm()
     form["csrf_token"].data = request.cookies["csrf_token"] 

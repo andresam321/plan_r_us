@@ -3,6 +3,14 @@ const ADD_FOOD_DRINKS_TO_EVENT = "addFoodDrinksToEvent/ADD_FOOD_DRINKS_TO_EVENT"
 const UPDATE_FOOD_DRINK_FROM_EVENT = "updateFoodDrinkFromEvent/UPDATE_FOOD_DRINK_FROM_EVENT"
 const DELETE_FOOD_DRINK = "deleteFoodDrink/DELETE_FOOD_DRINK"
 const CLEAR_FOOD_DRINKS = "clearFoodDrinks/CLEAR_FOOD_DRINKS";
+const ALL_FOOD_DRINKS = "allFoodDrinks/ALL_FOOD_DRINKS"
+
+import { thunkGetEventById } from "./event";
+
+const allFoodDrink = (foodDrink) => ({
+    type: ALL_FOOD_DRINKS,
+    payload: foodDrink
+})
 
 const getFoodDrink = (foodDrink) => ({
     type:GET_ALL_FOOD_DRINKS_BY_EVENT_ID,
@@ -29,6 +37,28 @@ export const clearFoodDrinks = () => ({
     type: CLEAR_FOOD_DRINKS,
 });
 
+export const thunkGetAllFoodAndDrinks = () => async (dispatch) => {
+    try {
+        const res = await fetch(`/api/food_drink/all_food_drinks`);
+        if (res.ok) {
+            const data = await res.json();
+
+            if (data.errors) {
+                console.error("Errors received from the server:", data.errors);
+                return;
+            }
+            
+            dispatch(allFoodDrink(data));
+        } else {
+            // Handle HTTP errors here (e.g., non-200 status codes)
+            console.error("HTTP error:", res.statusText);
+        }
+    } catch (error) {
+        // Handle any other errors (e.g., network issues)
+        console.error("Fetch error:", error);
+    }
+
+}
 
 export const thunkDeleteFoodDrink = (foodDrinkId) => async (dispatch) => {
     const res = await fetch(`/api/food_drink/${foodDrinkId}`, {
@@ -45,15 +75,18 @@ export const thunkDeleteFoodDrink = (foodDrinkId) => async (dispatch) => {
 }
 
 
-export const thunkEditFoodDrink = (foodDrinkId, foodDrink) => async (dispatch) => {
+export const thunkEditFoodDrink = (id, foodDrink) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/food_drink/${foodDrinkId}/event`, {
+        const res = await fetch(`/api/food_drink/${id}`, {
             method: "PUT",
             body: foodDrink,
+            // Do not set Content-Type header when using FormData
+            // headers: { 'Content-Type': 'multipart/form-data' }
         });
         if (res.ok) {
             const data = await res.json();
-            dispatch(editFoodDrink(data)); // Ensure this action updates the Redux store
+            await dispatch(editFoodDrink(data));
+            await dispatch(thunkGetEventById(foodDrink)) // Ensure this action updates the Redux store
         } else {
             const errorData = await res.json();
             console.error("HTTP error:", errorData.message || res.statusText);
@@ -71,7 +104,7 @@ export const thunkAddFoodDrinksToEvent = (event_id, formData) => async (dispatch
         });
         if (res.ok) {
             const data = await res.json();
-            await dispatch(addFoodDrinksToEvent(data.food_drinks));
+            await dispatch(addFoodDrinksToEvent(data));
         } else {
             console.error("HTTP error:", res.statusText);
         }
@@ -131,6 +164,13 @@ function foodDrinkReducer(state = {}, action) {
         delete newState[action.payload];
         return newState;
 
+    }
+    case ALL_FOOD_DRINKS:{
+        return {
+            ...state,
+            allFoodDrink: action.payload,
+        };
+        
     }
     
         default:

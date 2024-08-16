@@ -27,7 +27,7 @@ body, html {
 .login-page::before {
     content: '';
     position: absolute;
-    width: 100%;
+    width: 15%;
     height: 100%;
     opacity: 0.2;
 }
@@ -40,31 +40,21 @@ body, html {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    width: 100%;
+    width: 50%;
     text-align: center;
     z-index: 1;
     height: auto;
     overflow-y: auto;
 }
 
-/* Login Container */
-.login-container {
-    /* Specific styles for login container, if any */
-}
 
-/* Signup Form Container */
-.signup-form {
-    /* Specific styles for signup form, if any */
-}
-
-/* Heading */
 h1 {
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
 }
 
-/* Form Controls */
+
 .form-control,
 .form-group {
     margin-bottom: 20px;
@@ -79,7 +69,7 @@ label {
     color: #333;
 }
 
-/* Input Fields */
+
 .form-control input,
 input[type="text"],
 input[type="password"] {
@@ -90,14 +80,14 @@ input[type="password"] {
     font-size: 16px;
 }
 
-/* Error Message */
+
 .form-error {
     color: red;
     font-size: 12px;
     margin-top: 5px;
 }
 
-/* Buttons */
+
 .form-button,
 button {
     width: 100%;
@@ -117,7 +107,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Animation */
+
 @keyframes backgroundMove {
     0% {
         background-position: 0% 0%;

@@ -98,11 +98,17 @@ return (
             {errors.family_code && <p className="form-error">{errors.family_code}</p>}
           </div>
           <button type="submit" className="form-button">Log In</button>
+            <OpenModalButton
+                  buttonText="Sign Up"
+                  className="add-food-drinks-button"
+                  modalComponent={<SignupFormModal/>}
+                />
         </form>
       </div>
-      <div className="signup-container">
+      {/* <div className="signup-container">
+        <OpenModalButton></OpenModalButton>
         <SignupFormModal />
-      </div>
+      </div> */}
     </div>
   );
 }

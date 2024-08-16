@@ -31,6 +31,7 @@ const AddEvent = () => {
         try {
             const res = await dispatch(thunkAddEvent(formData));
             closeModal();
+            await dispatch(thunkGetAllEvents());
             navigate('/events');
             
         } catch (error) {
@@ -39,9 +40,9 @@ const AddEvent = () => {
         }
     };
 
-    useEffect(() => {
-        dispatch(thunkGetAllEvents());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(thunkGetAllEvents());
+    // }, [dispatch]);
 
 
     return (

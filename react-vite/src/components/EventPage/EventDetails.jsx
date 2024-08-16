@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { thunkGetAllFoodDrinksByEvent } from '../../redux/foodDrink';
-import { thunkGetEventById } from '../../redux/event';
+import { thunkGetAllFoodDrinksByEvent, thunkEditFoodDrink, thunkGetAllFoodAndDrinks } from '../../redux/foodDrink';
+import { thunkGetEventById,thunkGetAllEvents } from '../../redux/event';
 import AddFoodAndDrinks from '../FoodDrink/AddFoodAndDrinks';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useParams } from 'react-router-dom';
@@ -37,6 +37,7 @@ const EventDetails = () => {
         const fetchData = async () => {
             try {
                 await dispatch(thunkGetEventById(id))
+                // await dispatch(thunkGetAllFoodAndDrinks());
                 await dispatch(thunkGetAllFoodDrinksByEvent(id));
             } catch (error) {
                 console.error("Error fetching event or food/drinks data:", error);
@@ -81,7 +82,7 @@ return (
                 <p className="event-location">Location: {singleEvent?.location}</p>
                 <p className="event-date">Date: {singleEvent?.event_date}</p>
                 <p className="event-organizer">Organizer: {singleEvent?.organizer}</p>
-                <p className="event-cutoff">Cutoff Date To Decide What You're Bringing: {singleEvent?.cut_of_date_to_bring_items}</p>
+                <p className="event-cutoff">Cutoff Date To Decide What You&apos;re Bringing: {singleEvent?.cut_of_date_to_bring_items}</p>
             </div>
             <div className="food-drink-section">
                 <h2 className="section-title">Food and Drinks</h2>
