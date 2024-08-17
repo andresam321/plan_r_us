@@ -7,13 +7,13 @@ function SignupFormPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [username, setUsername] = useState("");
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
   const [family_code, setFamily_code] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
@@ -21,13 +21,14 @@ function SignupFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
-      });
-    }
+    // if (password !== confirmPassword) {
+    //   return setErrors({
+    //     confirmPassword:
+    //       "Confirm Password field must be the same as the Password field",
+    //   });
 
+    //}//
+try {
     const serverResponse = await dispatch(
       thunkSignup({
         first_name,
@@ -36,12 +37,17 @@ function SignupFormPage() {
       })
     );
 
-    if (serverResponse) {
-      setErrors(serverResponse);
+    
+    if (response.errors) {
+      setErrors(response.errors);
     } else {
-      navigate("/");
+      closeModal();
     }
-  };
+  } catch (error) {
+    console.error("Signup error:", error);
+    setErrors({ server: "Signup failed. Please try again later." });
+  }
+};
 
   return (
     <>
@@ -71,7 +77,7 @@ function SignupFormPage() {
         <label>
           Family Code:
           <input
-            type="password"
+            type="text"
             value={family_code}
             onChange={(e) => setFamily_code(e.target.value)}
             required
