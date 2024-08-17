@@ -27,7 +27,7 @@ class FoodDrinkForm(FlaskForm):
             ('gluten_free', 'Gluten-Free'),
             ('kosher', 'Kosher'),
             ('halal', 'Halal'),
-            ('Other', 'Other')
+            ('other', 'Other')
         ],
         validators=[DataRequired()]
     )

@@ -28,8 +28,8 @@ const [errors, setErrors] = useState({})
 const foodDrinkById = useSelector((state) => state.foodDrinkReducer[foodDrinkId]);
 const foodDrinkAll = useSelector((state) => state.foodDrinkReducer);
 
-console.log("foodDrinkById before update:", foodDrinkById);
-console.log(" all fooddrinks:", foodDrinkAll);
+// console.log("foodDrinkById before update:", foodDrinkById);
+// console.log(" all fooddrinks:", foodDrinkAll);
 
 
 

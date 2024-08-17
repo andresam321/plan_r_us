@@ -17,11 +17,11 @@ const EventDetails = () => {
 
     const singleEvent = useSelector((state) => state.eventReducer[id]);
 
-    console.log("line20",singleEvent)
+    // console.log("line20",singleEvent)
 
     const userId = useSelector((state) => state.session.user.id);
 
-    console.log("line24",userId)
+    // console.log("line24",userId)
 
     const allFoodDrinksForEvent = singleEvent?.food_drinks || [];
 
@@ -47,7 +47,7 @@ const EventDetails = () => {
     }, [dispatch, id]);
 
 const canUpdateEvent = singleEvent && singleEvent.creator_id === userId;
-console.log("line46",canUpdateEvent)
+// console.log("line46",canUpdateEvent)
 
 return (
         <div className="event-details-container">

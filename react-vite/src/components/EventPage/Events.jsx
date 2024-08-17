@@ -8,7 +8,7 @@ const Events = () => {
     const dispatch = useDispatch();
     const allEvents = useSelector((state) => state.eventReducer.allEvents);
 
-    console.log("lallEvents",allEvents)
+    // console.log("lallEvents",allEvents)
 
     useEffect(() => {
         dispatch(thunkGetAllEvents());
