@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(40), nullable=False, unique=True)
     # email = db.Column(db.String(255), nullable=False, unique=True)
     # hashed_password = db.Column(db.String(255), nullable=False)
-    family_code = db.Column(db.String(10), nullable=True)
+    family_code = db.Column(db.String(50), nullable=True)
     
     created_events = db.relationship("Event", back_populates ="event_maker",cascade="all, delete-orphan")
     brought_food_drinks = db.relationship("FoodDrink", back_populates ="brought_by",cascade='all, delete-orphan')
