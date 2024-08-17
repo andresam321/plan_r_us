@@ -22,12 +22,12 @@ function SignupFormModal() {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  if (password !== confirmPassword) {
-    return setErrors({
-      confirmPassword:
-        "Confirm Password field must be the same as the Password field",
-    });
-  }
+  // if (password !== confirmPassword) {
+  //   return setErrors({
+  //     confirmPassword:
+  //       "Confirm Password field must be the same as the Password field",
+  //   });
+  // }
 
   try {
     const response = await dispatch(
