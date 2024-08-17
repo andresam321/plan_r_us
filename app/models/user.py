@@ -21,16 +21,16 @@ class User(db.Model, UserMixin):
     brought_food_drinks = db.relationship("FoodDrink", back_populates ="brought_by",cascade='all, delete-orphan')
     attending_events = db.relationship('EventAttendance', back_populates='user')
 
-    @property
-    def password(self):
-        return self.hashed_password
+    # @property
+    # def password(self):
+    #     return self.hashed_password
 
-    @password.setter
-    def password(self, password):
-        self.hashed_password = generate_password_hash(password)
+    # @password.setter
+    # def password(self, password):
+    #     self.hashed_password = generate_password_hash(password)
 
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
+    # def check_password(self, password):
+    #     return check_password_hash(self.password, password)
     
     def check_family_code(self, family_code):
         return self.family_code == family_code
