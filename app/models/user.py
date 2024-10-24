@@ -11,26 +11,26 @@ class User(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(40), nullable=False, unique=True)
-    last_name = db.Column(db.String(40), nullable=False, unique=True)
+    first_name = db.Column(db.String(40), nullable=False)
+    last_name = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    # hashed_password = db.Column(db.String(255), nullable=False)
+    hashed_password = db.Column(db.String(255), nullable=False)
     family_code = db.Column(db.String(50), nullable=True)
     
     created_events = db.relationship("Event", back_populates ="event_maker",cascade="all, delete-orphan")
     brought_food_drinks = db.relationship("FoodDrink", back_populates ="brought_by",cascade='all, delete-orphan')
     attending_events = db.relationship('EventAttendance', back_populates='user')
 
-    # @property
-    # def password(self):
-    #     return self.hashed_password
+    @property
+    def password(self):
+        return self.hashed_password
 
-    # @password.setter
-    # def password(self, password):
-    #     self.hashed_password = generate_password_hash(password)
+    @password.setter
+    def password(self, password):
+        self.hashed_password = generate_password_hash(password)
 
-    # def check_password(self, password):
-    #     return check_password_hash(self.password, password)
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
     
     def check_family_code(self, family_code):
         return self.family_code == family_code
@@ -41,6 +41,8 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
+            'email':self.email,
+            'password':self.password,
             'family_code': self.family_code
         }
 

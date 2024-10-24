@@ -25,15 +25,16 @@ def authenticate():
 def login():
     form = LoginForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        if form.data['family_code'] != FAMILY_CODE:
-            return {'errors': 'Invalid family code.'}, 400
 
-        user = User.query.filter(User.first_name == form.data['first_name'], User.family_code == form.data['family_code']).first()
-        if user:
+    if form.validate_on_submit():
+        # Fetch user by email and family code
+        user = User.query.filter_by(email=form.data['email']).first()
+        
+        if user and user.check_password(form.data['password']) and user.check_family_code(form.data['family_code']):
             login_user(user)
             return user.to_dict()
-        return {'errors': {'message': 'Invalid credentials'}}, 401
+        else:
+            return {'errors': {'message': 'Invalid email, password, or family code.'}}, 401
     return form.errors, 401
 
 
@@ -80,16 +81,12 @@ def sign_up():
         if not family_code:
             family_code = generate_family_code()  # Generate a new family code
 
-        # Check if user already exists
-        if User.query.filter(User.first_name == form.data['first_name']).first():
-            return {'errors': 'User already exists.'}, 400
-
         # Create a new user with the provided or generated family code
         user = User(
             first_name=form.data['first_name'],
             last_name=form.data['last_name'],
             email = form.data['email'],
-            
+            password=form.data['password'],
             family_code=family_code
         )
         
