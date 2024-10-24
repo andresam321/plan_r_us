@@ -9,10 +9,14 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
 from .api.food_drink_routes import food_drink_routes
+from .api.email_routes import test_email
 from .seeds import seed_commands
 from .config import Config
 
+# Initialize the Flask-Mail extension
+
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+
 
 # Setup login manager
 login = LoginManager(app)
@@ -31,9 +35,12 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(event_routes, url_prefix='/api/event')
+app.register_blueprint(test_email, url_prefix='/api/test_email')
 app.register_blueprint(food_drink_routes, url_prefix='/api/food_drink')
 db.init_app(app)
+
 Migrate(app, db)
+
 
 # Application Security
 CORS(app)

@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
+from app.api.email_routes import send_family_code_email, generate_family_code
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 
@@ -46,26 +47,61 @@ def logout():
     return {'message': 'User logged out'}
 
 
+# @auth_routes.route('/signup', methods=['POST'])
+# def sign_up():
+#     form = SignUpForm()
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     if form.validate_on_submit():
+#         if form.data['family_code'] != FAMILY_CODE:
+#             return {'errors': 'Invalid family code.'}, 400
+
+#         if User.query.filter(User.first_name == form.data['first_name']).first():
+#             return {'errors': 'User already exists.'}, 400
+
+#         user = User(
+#             first_name=form.data['first_name'],
+#             last_name=form.data['last_name'],
+#             family_code=form.data['family_code']
+#         )
+#         db.session.add(user)
+#         db.session.commit()
+#         login_user(user)
+#         return user.to_dict()
+#     return form.errors, 401
+
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    
     if form.validate_on_submit():
-        if form.data['family_code'] != FAMILY_CODE:
-            return {'errors': 'Invalid family code.'}, 400
+        # Check if family code is provided; generate one if not
+        family_code = form.data.get('family_code')
+        if not family_code:
+            family_code = generate_family_code()  # Generate a new family code
 
+        # Check if user already exists
         if User.query.filter(User.first_name == form.data['first_name']).first():
             return {'errors': 'User already exists.'}, 400
 
+        # Create a new user with the provided or generated family code
         user = User(
             first_name=form.data['first_name'],
             last_name=form.data['last_name'],
-            family_code=form.data['family_code']
+            email = form.data['email'],
+            
+            family_code=family_code
         )
+        
         db.session.add(user)
         db.session.commit()
+
+        # Send the generated family code via email to the user's email
+        send_family_code_email(form.data['email'], family_code)
+
         login_user(user)
         return user.to_dict()
+    
     return form.errors, 401
 
 
